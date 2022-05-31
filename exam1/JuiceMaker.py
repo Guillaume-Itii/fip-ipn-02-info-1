@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 # A travers le programme, on peut trouver des bools nommé "debug"
 # Ils sont uniquement utiliser pour print certain element lors du developpement
 # Enum des ingredient
