@@ -21,6 +21,13 @@ class Size(Enum):
     Medium = 1
     Large = 2
 
+    def returnSize(self,s):
+        if(s == "Small"):
+            return Size.Small
+        if(s == "Medium"):
+            return Size.Medium
+        if(s == "Large"):
+            return Size.Large
 
 class Juice:
     _name = ""
@@ -52,15 +59,40 @@ class Juice:
     @property
     def getPrice(self):
         return self._price
+    @property
+    def getListeIngredient(self):
+        return self._listeIngredient
+    @property
+    def getListeQuantite(self):
+        return self._listeQuantite
 
 class Order :
     _totalPrice = 0
     _juiceList = []
 
-    def __init__(self,JuiceList):
-        self._juiceList = JuiceList
+    def __init__(self,debug=False):
+        self._juiceList = []
+        self._totalPrice = 0
+        if debug :
+            print(self._juiceList)
+            print(self._totalPrice)
 
-class Barmen :
+    def addJuiceToOrder(self,j,debug=False):
+        size = Size.returnSize(None,input("taille : "))
+        if debug :
+            print(size)
+        self._juiceList.append( Juice(j.getName,j.getPrice,size,j.getListeIngredient,j.getListeQuantite,debug) )
+        self._totalPrice += self._juiceList.pop().getPrice
+        print("Le jus : " + j.getName + " de taille : " + str(size) + " à était ajouté a la commande")
+
+    def showJuiceInOrder(self):
+        for i in self._juiceList:
+            print("\"" + i.getName + "\"-" + str(i.getPrice) + "$|")
+    @property
+    def getTotalPrice(self):
+        return self._totalPrice
+
+class Barmen() :
     _Order = None
     _jusDispo = None
     def __init__(self):
@@ -71,12 +103,29 @@ class Barmen :
             Juice("The Fusion", 5, Size.Small, [Ingredient.Guava, Ingredient.Pineapple, Ingredient.Banana], [1, 0.25, 0.5]),
             Juice("The Detox", 3.5, Size.Small, [Ingredient.Carrot, Ingredient.Celery_Stick, Ingredient.Beetroot], [3, 1, 1])
         ]
+    def createOrder(self,debug=False):
+        self._Order = Order(debug)
+    def addToOrder(self,debug=False):
+        userChoice = input("Jus : ")
+        while( userChoice != "annuler" and userChoice != "fin") :
+            for i in self._jusDispo:
+                if userChoice == i.getName:
+                    jusToAdd = i
+                    if debug :
+                        print("jus existe")
+                    break
+            self._Order.addJuiceToOrder(jusToAdd,debug)
+            self._Order.showJuiceInOrder()
+            userChoice = input("Jus : ")
+        if userChoice == "annuler" :
+            self._Order = None
+            print("commande annuler")
+        if userChoice == "fin":
+            print("commande finaliser")
+            print("Le montant est de : " + str(self._Order.getTotalPrice ) + "$" )
 
-    def addNewOrder(self):
-        print("Menu :")
-        for i in self._jusDispo:
-            print("Nom : " + str(i.getName))
-            print("Price pour petit : " + str(i.getPrice))
+    def showOrder(self):
+        print(self._Order)
 
     def getListeJusDispo(self,index=None):
         if index == None:
@@ -87,4 +136,5 @@ class Barmen :
 if __name__ == '__main__':
     DEBUG = True
     b = Barmen()
-    b.addNewOrder()
+    b.createOrder()
+    b.addToOrder()
