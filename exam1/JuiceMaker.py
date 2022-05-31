@@ -82,12 +82,13 @@ class Order :
         if debug :
             print(size)
         self._juiceList.append( Juice(j.getName,j.getPrice,size,j.getListeIngredient,j.getListeQuantite,debug) )
-        self._totalPrice += self._juiceList.pop().getPrice
+        self._totalPrice += self._juiceList[-1].getPrice
         print("Le jus : " + j.getName + " de taille : " + str(size) + " à était ajouté a la commande")
 
     def showJuiceInOrder(self):
         for i in self._juiceList:
             print("\"" + i.getName + "\"-" + str(i.getPrice) + "$|")
+
     @property
     def getTotalPrice(self):
         return self._totalPrice
@@ -116,6 +117,7 @@ class Barmen() :
                     break
             self._Order.addJuiceToOrder(jusToAdd,debug)
             self._Order.showJuiceInOrder()
+
             userChoice = input("Jus : ")
         if userChoice == "annuler" :
             self._Order = None
@@ -126,12 +128,6 @@ class Barmen() :
 
     def showOrder(self):
         print(self._Order)
-
-    def getListeJusDispo(self,index=None):
-        if index == None:
-            return self._jusDispo
-        else :
-            return self._jusDispo[index].printAll()
 
 if __name__ == '__main__':
     DEBUG = True
