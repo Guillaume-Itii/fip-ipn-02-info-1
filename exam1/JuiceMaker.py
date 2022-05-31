@@ -137,8 +137,9 @@ class Barmen:
 
     # Ajout un(des) nouveau(x) jus a la commande
     def addToOrder(self, debug=False):
+        message = "Veuillez saisir le nom du jus voulu : \n Autre commande dispognible : \n annuler : Annule la commande en cours \n fin : Termine la commande et passe à la phase de paiement"
         self.getMenu()
-        userChoice = input("Veuillez saisir le nom du jus voulu : ")
+        userChoice = input(message)
         # Si l'utilisateur saisi "annuler" alors la commander est annuler et "détruite"
         # Si l'utilisateur saisi "fin" alors la commander est finaliser et en attente de payement
         while userChoice != "annuler" and userChoice != "fin":
@@ -152,7 +153,7 @@ class Barmen:
             self._Order.addJuiceToOrder(jusToAdd, debug)
             self._Order.showJuiceInOrder()
             self.getMenu()
-            userChoice = input("Veuillez saisir le nom du jus voulu : ")
+            userChoice = input(message)
         if userChoice == "annuler":
             self._Order = None
             print("commande annuler")
