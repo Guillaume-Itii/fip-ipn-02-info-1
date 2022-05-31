@@ -90,8 +90,10 @@ class Order :
         print("Le jus : " + j.getName + " de taille : " + str(size) + " à était ajouté a la commande")
     # Affiche tout les jus de la commande
     def showJuiceInOrder(self):
+        print("Votre commande :")
         for i in self._juiceList:
             print("\"" + i.getName + "\"-" + str(i.getPrice) + "$|")
+        print("-----------------")
 
     @property
     def getTotalPrice(self):
@@ -131,7 +133,7 @@ class Barmen() :
             self._Order.addJuiceToOrder(jusToAdd,debug)
             self._Order.showJuiceInOrder()
             self.getMenu()
-            userChoice = input("Jus : ")
+            userChoice = input("Veuillez saisir le nom du jus voulu : ")
         if userChoice == "annuler" :
             self._Order = None
             print("commande annuler")
