@@ -116,6 +116,7 @@ class Barmen() :
         self._Order = Order(debug)
     # Ajout un(des) nouveau(x) jus a la commande
     def addToOrder(self,debug=False):
+        self.getMenu()
         userChoice = input("Veuillez saisir le nom du jus voulu : ")
         # Si l'utilisateur saisi "annuler" alors la commander est annuler et "détruite"
         # Si l'utilisateur saisi "fin" alors la commander est finaliser et en attente de payement
@@ -129,7 +130,7 @@ class Barmen() :
                     break
             self._Order.addJuiceToOrder(jusToAdd,debug)
             self._Order.showJuiceInOrder()
-
+            self.getMenu()
             userChoice = input("Jus : ")
         if userChoice == "annuler" :
             self._Order = None
@@ -137,6 +138,18 @@ class Barmen() :
         if userChoice == "fin":
             print("commande finaliser")
             print("Le montant est de : " + str(self._Order.getTotalPrice ) + "$" )
+    def payForOrder(self,debug=False):
+        if self._Order is not None:
+            somme = float(input("Veuillez saissir la somme afin de validé le payement (montant de la commande : " + str(self._Order.getTotalPrice) + "$): "))
+            if somme == self._Order.getTotalPrice:
+                print("La commande a bien était payer")
+            else :
+                print("La commande a était annuler")
+    def getMenu(self):
+        print("Menu (taille standard) : ")
+        print("Small + 0$|Medium + 0.5$|Large + 1$ ")
+        for i in self._jusDispo:
+            print("\"" + i.getName + "\"-" + str(i.getPrice) + "$|")
 
 if __name__ == '__main__':
     DEBUG = True
@@ -146,3 +159,4 @@ if __name__ == '__main__':
     b.createOrder()
     # On ajoute un ou plusieurs jus
     b.addToOrder()
+    b.payForOrder()
