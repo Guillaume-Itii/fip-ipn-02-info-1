@@ -180,8 +180,12 @@ if __name__ == '__main__':
     DEBUG = True
     # On crée le barmen
     b = Barmen()
-    # On crée la commande
-    b.createOrder()
-    # On ajoute un ou plusieurs jus
-    b.addToOrder()
-    b.payForOrder()
+    while(True):
+        # On affiche son menu
+        b.getMenu()
+        if "oui" == input("Bonjour, voulez vous passez une commande (oui|non) : ") :
+            # On crée la commande
+            b.createOrder()
+            # On ajoute un ou plusieurs jus
+            b.addToOrder()
+            b.payForOrder()
